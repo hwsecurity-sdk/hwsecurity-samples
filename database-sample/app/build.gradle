@@ -33,8 +33,7 @@ repositories {
 
 dependencies {
     // Smartcard OpenPGP protocol
-    implementation project(':hwsecurity:core')
-    implementation project(':hwsecurity:openpgp')
+    implementation 'de.cotech:hwsecurity-openpgp:4.2.1'
 
     // Room Persistence Library
     implementation "androidx.room:room-runtime:2.1.0"

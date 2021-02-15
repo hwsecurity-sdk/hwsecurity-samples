@@ -64,11 +64,10 @@ dependencies {
 
     implementation 'com.jcraft:jsch:0.1.55'
 
-    implementation project(':hwsecurity:core')
-    implementation project(':hwsecurity:ssh')
-    implementation project(':hwsecurity:openpgp')
-    implementation project(':hwsecurity:piv')
-    implementation project(':hwsecurity:ui')
+    implementation 'de.cotech:hwsecurity-ssh:4.2.1'
+    implementation 'de.cotech:hwsecurity-openpgp:4.2.1'
+    implementation 'de.cotech:hwsecurity-piv:4.2.1'
+    implementation 'de.cotech:hwsecurity-ui:4.2.1'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
