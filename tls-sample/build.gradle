@@ -1,0 +1,28 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.0.0'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        // TODO get trial key
+        maven {
+            credentials {
+                username 'trial'
+                password 'TRIALKEY'
+            }
+            url "https://maven.cotech.de"
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

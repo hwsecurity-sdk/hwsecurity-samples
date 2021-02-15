@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">FIDO / WebAuthn Example</string>
+    <string name="description">This example shows FIDO/WebAuthn.\nTry our SDK at <a href='https://hwsecurity.dev/?utm_campaign=fido-app'>hwsecurity.dev</a></string>
+    <string-array name="website_array">
+        <item>https://webauthn.hwsecurity.dev</item>
+        <item>https://u2f.hwsecurity.dev</item>
+        <item>https://mysignins.microsoft.com</item>
+        <item>https://demo.yubico.com/playground</item>
+        <item>https://webauthn.io</item>
+        <item>https://passwordless.dev</item>
+        <item>https://webauthntest.azurewebsites.net</item>
+    </string-array>
+
+    <string-array name="verification_requirement">
+        <item>Discouraged</item>
+        <item>Preferred</item>
+        <item>Required</item>
+    </string-array>
+
+    <string-array name="attestation_conveyance_preference">
+        <item>None</item>
+        <item>Direct</item>
+    </string-array>
+</resources>

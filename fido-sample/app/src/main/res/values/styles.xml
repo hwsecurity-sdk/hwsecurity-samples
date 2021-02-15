@@ -1,0 +1,29 @@
+<resources>
+
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- NFC Sweetspot activity -->
+    <style name="AppTheme.FullScreen" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!-- Custom colors for the FIDO dialog -->
+    <style name="MyDialog" parent="HwSecurity.Dialog">
+        <item name="hwSecurityButtonColor">#000</item>
+        <item name="hwSecuritySurfaceColor">#000</item>
+        <item name="hwSecurityErrorColor">#e00f00</item>
+        <item name="hwSecuritySuccessColor">#55d264</item>
+    </style>
+
+</resources>

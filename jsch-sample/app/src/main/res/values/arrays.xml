@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="cardTypes">
+        <item>OpenPGP</item>
+        <item>PIV</item>
+    </string-array>
+
+    <string-array name="setupAlgorithms">
+        <item>RSA 2048</item>
+        <item>ECC P-256</item>
+        <item>ECC P-384</item>
+        <item>ECC P-521</item>
+    </string-array>
+</resources>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FidoU2fFragment">
+
+    <ImageView
+        android:id="@+id/imageLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/textDescription"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher_round" />
+
+    <TextView
+        android:id="@+id/textDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/description"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintBottom_toBottomOf="@+id/imageLogo"
+        app:layout_constraintEnd_toEndOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/imageLogo"
+        app:layout_constraintTop_toTopOf="@+id/imageLogo" />
+
+    <Button
+        android:id="@+id/buttonFidoRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Register"
+        app:layout_constraintEnd_toStartOf="@+id/buttonFidoAuthenticate"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageLogo" />
+
+    <Button
+        android:id="@+id/buttonFidoAuthenticate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Authenticate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonFidoRegister"
+        app:layout_constraintTop_toBottomOf="@+id/imageLogo" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textConfigVerification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Verification (PIN)"
+        android:minWidth="150dp"
+        android:minHeight="32dp"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textConfigAttestation"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerConfigVerification"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textConfigAttestation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="150dp"
+        android:minHeight="32dp"
+        android:text="Attestation"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/textConfigVerification"
+        app:layout_constraintBottom_toTopOf="@+id/textConfigForceU2f"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textConfigForceU2f"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="150dp"
+        android:minHeight="32dp"
+        android:text="Force U2F"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/textConfigAttestation"
+        app:layout_constraintBottom_toTopOf="@+id/buttonFidoAuthenticate"
+        />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinnerConfigVerification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="175dp"
+        android:entries="@array/verification_requirement"
+        app:layout_constraintStart_toEndOf="@+id/textConfigVerification"
+        app:layout_constraintTop_toTopOf="@+id/textConfigVerification"
+        app:layout_constraintBottom_toBottomOf="@+id/textConfigVerification"
+        />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinnerConfigAttestation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="175dp"
+        android:entries="@array/attestation_conveyance_preference"
+        app:layout_constraintStart_toEndOf="@+id/textConfigAttestation"
+        app:layout_constraintTop_toTopOf="@+id/textConfigAttestation"
+        app:layout_constraintBottom_toBottomOf="@+id/textConfigAttestation"
+        />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/checkboxConfigForceU2f"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="175dp"
+        android:entries="@array/attestation_conveyance_preference"
+        app:layout_constraintStart_toEndOf="@+id/textConfigForceU2f"
+        app:layout_constraintTop_toTopOf="@+id/textConfigForceU2f"
+        app:layout_constraintBottom_toBottomOf="@+id/textConfigForceU2f"
+        />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonFidoRegister">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textLog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

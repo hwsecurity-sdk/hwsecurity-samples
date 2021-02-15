@@ -1,0 +1,76 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 29
+    
+    defaultConfig {
+        applicationId "de.cotech.hw.ssh.sample"
+        minSdkVersion 14
+        targetSdkVersion 29
+
+        // insert SDK version used to build this apk
+        versionName "4.1.5"
+        versionCode 5
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix ".debug"
+        }
+    }
+    
+    if (project.hasProperty('fidoSigningStoreLocation') &&
+            project.hasProperty('fidoSigningStorePassword') &&
+            project.hasProperty('fidoSigningKeyAlias') &&
+            project.hasProperty('fidoSigningKeyPassword')) {
+        println "Found sign properties in gradle.properties! Signing build…"
+
+        signingConfigs {
+            release {
+                storeFile file(fidoSigningStoreLocation)
+                storePassword fidoSigningStorePassword
+                keyAlias fidoSigningKeyAlias
+                keyPassword fidoSigningKeyPassword
+            }
+        }
+
+        buildTypes.release.signingConfig = signingConfigs.release
+    } else {
+        buildTypes.release.signingConfig = null
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0'
+
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha03'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.core:core-ktx:1.1.0-alpha05'
+
+    implementation 'com.google.android.material:material:1.0.0'
+
+    implementation 'com.jcraft:jsch:0.1.55'
+
+    implementation project(':hwsecurity:core')
+    implementation project(':hwsecurity:ssh')
+    implementation project(':hwsecurity:openpgp')
+    implementation project(':hwsecurity:piv')
+    implementation project(':hwsecurity:ui')
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+}

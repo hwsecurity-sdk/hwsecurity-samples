@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        applicationId "de.cotech.hw.database.sample"
+        minSdkVersion 15
+        targetSdkVersion 29
+
+        versionName "1.0"
+        versionCode 1
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+repositories {
+    google()
+    jcenter()
+    // CWAC-SafeRoom Maven repository
+    maven {
+        url "https://s3.amazonaws.com/repo.commonsware.com"
+    }
+}
+
+dependencies {
+    // Smartcard OpenPGP protocol
+    implementation project(':hwsecurity:core')
+    implementation project(':hwsecurity:openpgp')
+
+    // Room Persistence Library
+    implementation "androidx.room:room-runtime:2.1.0"
+    annotationProcessor "androidx.room:room-compiler:2.1.0"
+
+    // SQLCipher and CWAC-SafeRoom
+    implementation "com.commonsware.cwac:saferoom.x:1.1.2"
+    implementation "net.zetetic:android-database-sqlcipher:4.2.0@aar"
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+}
