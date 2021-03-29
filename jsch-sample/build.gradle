@@ -19,7 +19,7 @@ allprojects {
         maven {
             credentials {
                 username 'trial'
-                password 'TRIALKEY'
+                password 'WUf8cEQzV26xKpaL'
             }
             url "https://maven.cotech.de"
         }
