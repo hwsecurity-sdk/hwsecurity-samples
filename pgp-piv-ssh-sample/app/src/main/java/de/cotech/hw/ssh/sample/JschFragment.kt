@@ -4,19 +4,19 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.text.method.LinkMovementMethod
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.AdapterView
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.AnyThread
-import androidx.annotation.UiThread
 import androidx.annotation.WorkerThread
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.jcraft.jsch.Identity
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.JSchException
 import com.jcraft.jsch.Logger
 import de.cotech.hw.SecurityKeyAuthenticator
 import de.cotech.hw.openpgp.OpenPgpSecurityKey
-import de.cotech.hw.openpgp.OpenPgpSecurityKey.AlgorithmConfig
 import de.cotech.hw.openpgp.OpenPgpSecurityKeyDialogFragment
 import de.cotech.hw.piv.PivSecurityKey
 import de.cotech.hw.piv.PivSecurityKeyDialogFragment
@@ -24,7 +24,7 @@ import de.cotech.hw.secrets.PinProvider
 import de.cotech.hw.ssh.SecurityKeySshAuthenticator
 import de.cotech.hw.ui.SecurityKeyDialogInterface
 import de.cotech.hw.ui.SecurityKeyDialogOptions
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_jsch.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -32,12 +32,12 @@ import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 
-class MainActivity : AppCompatActivity() {
+class JschFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_jsch, container, false)
 
+        val textDescription = view.findViewById<TextView>(R.id.textDescription)
         textDescription.movementMethod = LinkMovementMethod.getInstance()
 
         JSch.setLogger(object : Logger {
@@ -47,32 +47,9 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        buttonConnect.setOnClickListener {
-            showSecurityKeyDialog()
-        }
+        view.findViewById<View>(R.id.buttonConnect).setOnClickListener { showSecurityKeyDialog() }
 
-        buttonSetup.setOnClickListener {
-            showSecurityKeySetupDialog()
-        }
-
-        spinnerCardType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                when (spinnerCardType.getItemAtPosition(position)) {
-                    "OpenPGP" -> {
-                        spinnerAlgorithm.isEnabled = true
-                        buttonSetup.isEnabled = true
-                    }
-                    "PIV" -> {
-                        spinnerAlgorithm.isEnabled = false
-                        buttonSetup.isEnabled = false
-                    }
-                }
-            }
-        }
+        return view
     }
 
     private fun showSecurityKeyDialog() {
@@ -96,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         securityKeyDialogFragment.setSecurityKeyDialogCallback(SecurityKeyDialogInterface.SecurityKeyDialogCallback { dialogInterface, securityKey: PivSecurityKey, pinProvider ->
             connectToSshPiv(dialogInterface, securityKey, pinProvider)
         })
-        securityKeyDialogFragment.show(supportFragmentManager)
+        securityKeyDialogFragment.show(requireFragmentManager())
     }
 
     private fun showOpenPgpSecurityKeyDialog() {
@@ -113,61 +90,7 @@ class MainActivity : AppCompatActivity() {
         securityKeyDialogFragment.setSecurityKeyDialogCallback(SecurityKeyDialogInterface.SecurityKeyDialogCallback { dialogInterface, securityKey: OpenPgpSecurityKey, pinProvider ->
             connectToSshOpenPgp(dialogInterface, securityKey, pinProvider)
         })
-        securityKeyDialogFragment.show(supportFragmentManager)
-    }
-
-    private fun showSecurityKeySetupDialog() {
-        val algorithm: AlgorithmConfig = when (spinnerAlgorithm.selectedItem) {
-            "RSA 2048" -> {
-                AlgorithmConfig.RSA_2048_UPLOAD
-            }
-            "ECC P-256" -> {
-                AlgorithmConfig.NIST_P256_GENERATE_ON_HARDWARE
-            }
-            "ECC P-384" -> {
-                AlgorithmConfig.NIST_P384_GENERATE_ON_HARDWARE
-            }
-            "ECC P-521" -> {
-                AlgorithmConfig.NIST_P521_GENERATE_ON_HARDWARE
-            }
-            else -> {
-                AlgorithmConfig.RSA_2048_UPLOAD
-            }
-        }
-
-        val options = SecurityKeyDialogOptions.builder()
-                .setPinMode(SecurityKeyDialogOptions.PinMode.SETUP)
-                .setFormFactor(SecurityKeyDialogOptions.FormFactor.SECURITY_KEY)
-                .setPreventScreenshots(!BuildConfig.DEBUG)
-                .build()
-
-        val securityKeyDialogFragment = OpenPgpSecurityKeyDialogFragment.newInstance(options)
-        securityKeyDialogFragment.setSecurityKeyDialogCallback(SecurityKeyDialogInterface.SecurityKeyDialogCallback { dialogInterface, securityKey: OpenPgpSecurityKey, pinProvider ->
-            setupSecurityKey(dialogInterface, securityKey, pinProvider!!, algorithm)
-        })
-        securityKeyDialogFragment.show(supportFragmentManager)
-    }
-
-    @UiThread
-    private fun setupSecurityKey(
-            dialogInterface: SecurityKeyDialogInterface,
-            securityKey: OpenPgpSecurityKey,
-            pinProvider: PinProvider,
-            algorithm: AlgorithmConfig
-    ) = GlobalScope.launch(Dispatchers.Main) {
-        val deferred = GlobalScope.async(Dispatchers.IO) {
-            dialogInterface.postProgressMessage("Generating keys…")
-            securityKey.setupPairedKey(pinProvider, algorithm)
-            dialogInterface.successAndDismiss()
-        }
-
-        try {
-            deferred.await()
-        } catch (e: IOException) {
-            dialogInterface.postError(e)
-        } catch (e: Exception) {
-            Log.e(MyCustomApplication.TAG, "Exception", e)
-        }
+        securityKeyDialogFragment.show(requireFragmentManager())
     }
 
     private fun connectToSshPiv(
@@ -212,6 +135,8 @@ class MainActivity : AppCompatActivity() {
             deferred.await()
         } catch (e: JSchException) {
             Log.e(MyCustomApplication.TAG, "JschException", e)
+            // wrap in IOException and show
+            dialogInterface.postError(IOException(e.message))
             // unwrap IOExceptions thrown in SshIdentity and handle them in SecurityKeyDialogFragment
             e.cause?.let { dialogInterface.postError(it as IOException?) }
         } catch (e: IOException) {
@@ -233,7 +158,7 @@ class MainActivity : AppCompatActivity() {
         // disable strict host key checking for testing purposes
         JSch.setConfig("StrictHostKeyChecking", "no")
         jsch.addIdentity(securityKeyIdentity, null)
-        val sshSession = jsch.getSession(securityKeyIdentity.loginName, loginHost)
+        val sshSession = jsch.getSession(securityKeyIdentity.name, loginHost)
 
         val baos = ByteArrayOutputStream()
         baos.write("Server Output: ".toByteArray(), 0, 15)
@@ -272,8 +197,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     class SecurityKeyJschIdentity(
-            val dialogInterface: SecurityKeyDialogInterface,
-            val loginName: String,
+            private val dialogInterface: SecurityKeyDialogInterface,
+            private val loginName: String,
             private val securityKeyAuthenticator: SecurityKeySshAuthenticator
     ) : Identity {
         override fun getName() = loginName
@@ -297,6 +222,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        fun newInstance() = JschFragment()
+
         const val MAX_CONNECTION_TIME = 5000
         const val TIMEOUT_MS_CONNECT = 10000
         const val TIMEOUT_MS_CHANNEL = 10000

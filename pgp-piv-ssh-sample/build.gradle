@@ -1,12 +1,12 @@
 buildscript {
-    ext.kotlin_version = '1.3.21'
+    ext.kotlin_version = '1.4.0'
     repositories {
         google()
         jcenter()
         
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.android.tools.build:gradle:4.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -15,17 +15,14 @@ allprojects {
     repositories {
         google()
         jcenter()
-        // TODO get trial key
-        maven {
-            credentials {
-                username 'trial'
-                password 'TRIALKEY'
-            }
-            url "https://maven.cotech.de"
-        }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    compileSdkVersion = 29
+    hwSdkVersionName = "1.0"
 }

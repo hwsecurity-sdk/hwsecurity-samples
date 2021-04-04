@@ -7,12 +7,12 @@ android {
     
     defaultConfig {
         applicationId "de.cotech.hw.ssh.sample"
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 29
 
         // insert SDK version used to build this apk
-        versionName "4.1.5"
-        versionCode 5
+        versionName "4.4.0"
+        versionCode 6
     }
 
     compileOptions {
@@ -52,24 +52,27 @@ android {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0'
+    implementation project(':hwsecurity:core')
+    implementation project(':hwsecurity:openpgp')
+    implementation project(':hwsecurity:piv')
+    implementation project(':hwsecurity:ui')
 
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha03'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.core:core-ktx:1.1.0-alpha05'
+    // SSHJ
+    implementation 'com.hierynomus:sshj:0.31.0'
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.65' // Bouncy Castle for modern publickey support
+    implementation project(':hwsecurity:sshj')
 
-    implementation 'com.google.android.material:material:1.0.0'
-
+    // Jsch
+    implementation project(':hwsecurity:ssh')
     implementation 'com.jcraft:jsch:0.1.55'
 
-    implementation 'de.cotech:hwsecurity-ssh:4.2.1'
-    implementation 'de.cotech:hwsecurity-openpgp:4.2.1'
-    implementation 'de.cotech:hwsecurity-piv:4.2.1'
-    implementation 'de.cotech:hwsecurity-ui:4.2.1'
+    implementation 'com.google.android.material:material:1.3.0'
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.core:core-ktx:1.3.2'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
 }

@@ -10,5 +10,6 @@
         <item>ECC P-256</item>
         <item>ECC P-384</item>
         <item>ECC P-521</item>
+        <item>Curve 25519</item>
     </string-array>
 </resources>

@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">SSH Example</string>
+    <string name="ssh_sample_username">cotech</string>
+    <string name="ssh_sample_host">ssh.hwsecurity.dev</string>
+    <string name="ssh_sample_host_hint">hostname</string>
+    <string name="ssh_sample_username_hint">user</string>
+    <string name="ssh_sample_at">\@</string>
+    <string name="ssh_sample_connect_button">Connect</string>
+    <string name="description_sshj">Example: SSHJ with security keys.\nTry our SDK at <a href='https://hwsecurity.dev/?utm_campaign=jsch-app'>hwsecurity.dev</a></string>
+    <string name="description_jsch">Example: Jsch with security keys.\nTry our SDK at <a href='https://hwsecurity.dev/?utm_campaign=jsch-app'>hwsecurity.dev</a></string>
+    <string name="description_openpgp">Example: OpenPGP cards / security keys.\nTry our SDK at <a href='https://hwsecurity.dev/?utm_campaign=jsch-app'>hwsecurity.dev</a></string>
+    <string name="description_piv">Example: PIV cards / security keys.\nTry our SDK at <a href='https://hwsecurity.dev/?utm_campaign=jsch-app'>hwsecurity.dev</a></string>
+
+</resources>
